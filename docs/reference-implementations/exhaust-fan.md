@@ -1,0 +1,8 @@
+---
+title: "Exhaust Fan Reference Implementation"
+page_type: reference
+page_status: stub
+template: knowledgebase_wikijs:templates/reference-template.md
+---
+
+# Exhaust Fan Reference Implementation

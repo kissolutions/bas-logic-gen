@@ -1,6 +1,6 @@
-  # BAS Logic Generator
+# BAS Logic Generator
 
-@../knowledgebase_wikijs/AI/BAS-ENGINEERING-CONTEXT.md
+@../knowledgebase_wikijs/AI/AGENT-FRAMEWORK-GUIDE.md
 
 ## Purpose
 
@@ -24,21 +24,37 @@ Do not proceed directly from design documentation to executable code.
 The canonical system model is a formal engineering checkpoint and should
 remain independent of vendor-specific executable implementation.
 
-## Knowledgebase
+The full workflow, with its decision gates, is encoded in
+docs/design-playbooks/logic-generation-playbook.md.
 
-The knowledgebase_wikijs repository is the authoritative engineering
-reference for this project.
+## Knowledgebase and Authority
 
-Use it to locate applicable:
-- engineering workflow guidance;
-- system architecture;
-- reusable control patterns;
-- physical device information;
-- integration methods;
-- constraints and known failure modes;
-- validated implementation examples.
+This repository is a domain extension of the KIS knowledge framework.
+
+The knowledgebase_wikijs repository is authoritative for:
+- the framework: page taxonomy, metadata conventions, templates, reasoning
+  model and framework vocabulary;
+- physical device pages (Devices/).
+
+This repository is authoritative for all BAS logic content: definitions,
+canonical model, logic patterns, concepts, playbooks, constraints, platform
+conventions, code archetypes, reference implementations, historical
+examples and validation checks. BAS-specific settings and vocabulary live
+here, never in knowledgebase_wikijs.
+
+Documentation lives in docs/ and follows the framework:
+- Folders organize domains of knowledge, not workflow steps.
+- Every page declares page_type in frontmatter and follows its template.
+- Extension page types are listed in
+  docs/governance-and-doctrine/page-type-registry.md; their templates are
+  in templates/.
+- Device facts are linked from knowledgebase_wikijs, not copied.
+- Use docs/governance-and-doctrine/definitions.md for BAS terms. Terms
+  marked "convention pending" are not yet defined; do not assume a meaning.
 
 Do not treat an example implementation as a universal standard.
+Historical examples are precedent; logic patterns define behavior; code
+archetypes implement it.
 
 ## Engineering Discipline
 
@@ -55,5 +71,6 @@ When information conflicts or is incomplete:
 This repository contains schemas, canonical models, implementation
 architecture, generators, tests, and generated logic.
 
-Do not modify engineering standards in the knowledgebase merely to make
-implementation easier.
+Do not modify the framework or device pages in knowledgebase_wikijs
+merely to make implementation easier. If the framework is insufficient,
+propose a framework change there.
