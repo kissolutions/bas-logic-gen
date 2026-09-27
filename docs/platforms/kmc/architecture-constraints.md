@@ -26,8 +26,12 @@ against actual datasheets / platform product-class pages.
 ## Module Chunk Sizes
 
 <!-- TBD: per KMC controller/remote-I/O module family, the point capacity by
-type (AI/AO/BI/BO). Source from product-class pages
-(platforms/kmc/controller-mappings/) or manufacturer datasheets, not memory. -->
+type (AI/AO/BI/BO). AUTHORITATIVE SOURCE: the physical entity pages in
+knowledgebase_wikijs, Devices/Controllers/KMC/<model>.md (hardware-template),
+same as any field device page — not this repository, and not memory. Those
+pages are currently drafts with specs marked PENDING; fill them in from the
+manufacturer datasheet, then bring the chunk sizes here as a KIS-facing
+summary that cites the wiki page as its source. -->
 
 ## Purchase vs. Provision-Only
 
