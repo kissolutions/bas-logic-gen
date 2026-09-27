@@ -11,10 +11,11 @@ Domain extension of the KIS knowledge framework (knowledgebase_wikijs) for produ
 | Folder | Holds | Page type |
 |---|---|---|
 | `governance-and-doctrine/` | Registry, BAS definitions, source authority, naming standards | governance |
-| `ontology/canonical-model/` | What the canonical system model contains | model-element |
+| `ontology/canonical-model/` | Canonical model vocabulary: the takeoff (what exists, with sources) | model-element |
+| `ontology/narrative-model/` | Behavior elements used by the controls narrative (function, setpoint, alarm, ...) | model-element |
 | `ontology/logic-patterns/` | Vendor-neutral control behaviors | logic-pattern |
 | `concepts/logic-architecture/` | How control software behaves | concept |
-| `design-playbooks/` | The logic generation workflow and per-system logic strategies | playbook |
+| `design-playbooks/` | The controls engineering workflow and per-system strategies | playbook |
 | `platforms/<platform>/` | What a controller platform implies; conventions; controller mappings | product-class, playbook, constraint-synthesis |
 | `code-archetypes/<platform>/` | Copy-ready implementations: variant menu, tokens, code | code-archetype |
 | `reference-implementations/` | Validated complete systems | reference |

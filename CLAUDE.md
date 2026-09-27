@@ -4,28 +4,28 @@
 
 ## Purpose
 
-This repository develops the framework for translating completed BAS
-engineering design information into structured, reviewable, and ultimately
+This repository develops the framework for taking a controls project from
+mechanical design documents to structured, reviewable, and ultimately
 executable control logic.
 
 ## Engineering Workflow
 
-Do not proceed directly from design documentation to executable code.
+The workflow, its stages, checkpoints and decision gates are defined in
+docs/design-playbooks/controls-engineering-playbook.md. Follow it; do not
+skip stages. In summary:
 
-1. Interpret source engineering documentation.
-2. Build a canonical engineering/system model.
-3. Validate that model against the source documentation and applicable
-   knowledgebase guidance.
-4. Identify conflicts, omissions, and unresolved engineering decisions.
-5. Build the software/control architecture.
-6. Generate or implement control logic.
-7. Validate the resulting logic.
+1. Source intake → 2. System identification → 3. Takeoff →
+4. Device selection → 5. MODEL CHECKPOINT → 6. Controls narrative →
+7. NARRATIVE CHECKPOINT → 8. Logic architecture → 9. Pattern selection →
+10. Archetype binding → 11. Assembly → 12. Validation
 
-The canonical system model is a formal engineering checkpoint and should
-remain independent of vendor-specific executable implementation.
-
-The full workflow, with its decision gates, is encoded in
-docs/design-playbooks/logic-generation-playbook.md.
+The canonical model is an XML takeoff of the source documents, built in
+layers (takeoff, selection, architecture), vendor-neutral, with a source
+reference on every element. It is the single source of truth: the device
+list, I/O list and other lists are generated from it, never edited
+separately. Approved layers are frozen; changing them reopens the
+checkpoint. The takeoff layer contains facts only — never add devices or
+behavior the documents do not show; raise an open item instead.
 
 ## Knowledgebase and Authority
 

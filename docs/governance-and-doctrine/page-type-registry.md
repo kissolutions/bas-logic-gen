@@ -8,7 +8,7 @@ page_status: draft
 
 This repository is a domain extension of the KIS knowledge framework. The framework itself (page taxonomy, metadata conventions, templates, reasoning model) is defined in the **knowledgebase_wikijs** repository, which is authoritative for structure. See its *Framework Extension Doctrine* and *AI Agent Framework Guide*.
 
-Folders here organize **domains of knowledge**, following the framework layers. The engineering workflow is **not** encoded in folders; it lives in the [Logic Generation Playbook](../design-playbooks/logic-generation-playbook.md).
+Folders here organize **domains of knowledge**, following the framework layers. The engineering workflow is **not** encoded in folders; it lives in the [Controls Engineering Playbook](../design-playbooks/controls-engineering-playbook.md).
 
 ---
 
@@ -32,7 +32,7 @@ These exist because this extension produces a deliverable (control logic) with a
 
 | Page type | Parent type | Folder | Template (this repo) | AI role | Answers |
 |---|---|---|---|---|---|
-| model-element | ontology | `ontology/canonical-model/` | `templates/model-element-template.md` | model_definition | What the canonical system model contains, and what is required of each element |
+| model-element | ontology | `ontology/canonical-model/`, `ontology/narrative-model/` | `templates/model-element-template.md` | model_definition | What the canonical system model contains, and what is required of each element |
 | logic-pattern | functional-construct | `ontology/logic-patterns/` | `templates/logic-pattern-template.md` | behavior_definition | What a control behavior must do, vendor-neutral, under all conditions |
 | code-archetype | playbook | `code-archetypes/<platform>/` | `templates/code-archetype-template.md` | generation_source | The standard copy-ready implementation of a pattern on a platform: variant menu, tokens, code |
 | validation-check | playbook | `validation/` | `templates/validation-check-template.md` | verification | One prescriptive check that catches one class of defect |
