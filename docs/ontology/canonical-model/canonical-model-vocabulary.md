@@ -28,6 +28,12 @@ project
     │       │          this project's design scope)
     │       └── selection   (selection layer — stage 4)
     ├── reserved_io   (anticipated, not-yet-committed I/O — architecture layer)
+    ├── provisional   (wrapper, placed exactly where its contents belong;
+    │                  holds a whole deferred assembly — component(s),
+    │                  device(s), point(s), even a whole future system —
+    │                  in their normal shape, pending an open_item's
+    │                  decision. Extraction = unwrap in place; see
+    │                  provisional.md)
     ├── dependency    (serves / served-by / shared signal — between two
     │                  systems both present in THIS model)
     └── open_item     (conflict, missing information, RFI)
@@ -60,6 +66,7 @@ source_ref            (attached to any element or attribute)
 | external_system | [External System Reference](external-system.md) | takeoff |
 | open_item | [Open Item](open-item.md) | any |
 | reserved_io | [Reserved I/O](reserved-io.md) | architecture |
+| provisional | [Provisional Scope](provisional.md) | any |
 | panel | [Panel](panel.md) | architecture |
 | controller | [Controller](controller.md) | architecture |
 | source_ref | [Source Reference](source-reference.md) | any |

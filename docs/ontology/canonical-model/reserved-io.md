@@ -15,7 +15,7 @@ model_layer: architecture
 
 **Why the model needs it:** Reserved I/O is not the same thing as generic spare capacity. Spare capacity is unallocated headroom with no identity ("20% more points, in case"). A reserved item is specific ("two DP sensors for OR corridors, discussed in review, currently declined but likely"). Keeping them distinct means a reserved item can be promoted to a real `point` later without disturbing the generic spare calculation, and lets the model show *why* extra rack space, power or wireway was planned in a location, rather than the reason living only in someone's memory of a meeting.
 
-**What this page does NOT do:** define the spare-capacity percentage or module chunk sizes — those are a platform policy (see `platforms/<platform>/architecture-constraints.md`) applied during Stage 8.
+**What this page does NOT do:** define the spare-capacity percentage or module chunk sizes — those are a platform policy (see `platforms/<platform>/architecture-constraints.md`) applied during Stage 8. It also doesn't cover the other two shapes "not committed yet" can take: pure hardware headroom with no content decided (an entire controller module sitting purchased-but-empty — see [Controller](controller.md) §4's `provisioning` attribute), or a fully-designed, multi-element assembly deferred as a block (a whole future component with its own devices and points — see [Provisional Scope](provisional.md)). This element is specifically for one named point.
 
 ---
 
