@@ -370,6 +370,7 @@ Because the narrative and the final I/O list both come from the approved model (
 - **Internal "first review checkpoint" criteria:** whether each of the five fork-track deliverables has the same internal reviewer/role, or a different one per deliverable type.
 - **BACnet Instance ID negotiation process:** not yet formalized — how the owner's schema (if any) is requested, reconciled, and confirmed before Commissioning.
 - **Commissioning:** referenced here as the milestone that closes out open items like instance IDs, but is not yet defined as a stage in this playbook.
+- **External vocabulary alignment (Project Haystack):** Haystack's point/device/component/system tagging model overlaps enough with `component.type`, `device.type`, and `point`'s `signal_type`/`usage` fields that partial adoption is worth doing — Haystack has no equivalent for this playbook's workflow concepts (source_ref, open_item, layering, reserved_io, the submittal fork), so those stay bespoke either way. Decision for now: leave the starter type lists in `component.md`/`device.md`/`point.md` as-is and do not adopt Haystack tags yet — per §Engineering Discipline in `CLAUDE.md`, a controlled vocabulary should be built from what real takeoffs actually contain, not fitted to an external standard before there's a real I/O list to check it against. Revisit once the first real project (see below) supplies actual device/point data to test Haystack's tags against.
 
 ---
 
