@@ -55,6 +55,7 @@ It covers the whole controls engineering workflow: takeoff, submittal drawings, 
 - **Provisional work is allowed, but tracked.** Logic generation does not have to wait for external approval of drawings. Work done against an unapproved model or narrative is *at-risk* and explicitly marked as such; when the upstream item changes, an impact assessment finds and re-checks everything built against the earlier version.
 - **Rough in early, finalize at the checkpoint.** Several decisions (controller family selection, logic generation) don't need to wait for a frozen layer to *start* — only to be *finalized*. Controller family and rough module count can be picked from preliminary point counts during takeoff, the way a PLC rack size is roughed in before the I/O list is locked. What a checkpoint actually guarantees is that the frozen layer is authoritative from that point on — not that no work happened before it.
 - **Not every open item blocks the next gate.** An open item carries a `resolve_by` reference to the milestone it must close before. Most must close before the Model Checkpoint. Some (e.g., an owner's BACnet instance ID schema) can stay open through Submittal Review and are only required to close before Commissioning.
+- **Named reservation is not generic spare.** A point flagged as likely-but-not-yet-confirmed (from a review or sidebar conversation) is recorded as a specific Reserved I/O item, distinct from the generic spare-capacity percentage applied on top of it. And capacity itself is not all-or-nothing: physical accommodation (rack space, power, wireway) can be reserved on the submitted drawings without purchasing the module — deferring cost without reopening the submittal later.
 
 ---
 
@@ -264,14 +265,17 @@ This stage has a rough-in phase and a finalize phase — the same rough-in-early
   - **Output:** draft architecture layer, explicitly marked provisional.
 - **Finalize phase**
   - **Entry:** Model Checkpoint passed (I/O list is now authoritative).
-  - **Inputs:** approved model I/O count and types; panel constraints, including I/O in panels not fully in KIS's control (e.g., packaged unit controllers); standing spare-capacity policy per controller/module.
-  - **Consult:** platform product-class pages (`platforms/<platform>/`) for controller and remote I/O module capacities.
+  - **Inputs:** approved model I/O count and types; panel constraints, including I/O in panels not fully in KIS's control (e.g., packaged unit controllers); [spare capacity policy](../platforms/kmc/architecture-constraints.md); named [Reserved I/O](../ontology/canonical-model/reserved-io.md) items flagged during review or sidebar conversations.
+  - **Consult:** platform product-class pages (`platforms/<platform>/`) for controller and remote I/O module capacities and chunk sizes.
   - **Actions:**
     - Assign each point to a controller or panel.
-    - Size controller/panel hardware with standard spare capacity (policy to be formalized — see Open Decisions).
+    - Add named reserved I/O items on top of the base point count (they are specific and identified, not generic headroom).
+    - Apply the spare capacity policy (project spec, else KIS default, adjusted for confidence level) to the total of assigned points plus reserved items.
+    - Round the result up to the nearest module chunk size for the chosen platform.
+    - For each resulting spare/reserved chunk, decide **purchase now** vs. **provision only** (rack space, power budget, wireway capacity reserved; module deferred) — a cost decision, recorded per chunk.
     - Finalize controller selection and quantities.
-  - **Decisions:** controller/panel assignment, hardware sizing — engineering.
-  - **Output:** model, architecture layer (final); final I/O list.
+  - **Decisions:** controller/panel assignment, hardware sizing, purchase-vs-provision per chunk — engineering, with the purchase timing being cost-driven.
+  - **Output:** model, architecture layer (final): controller and panel elements, points and reserved I/O assigned to them; final I/O list.
   - **Exit:** every point is assigned to a controller/panel with spare capacity accounted for. Unblocks Stages 11 and 12.
   - **Gate:** G6 governs what happens when a point is added or changed after this stage closes (see Section 6).
 
@@ -292,12 +296,14 @@ This stage has a rough-in phase and a finalize phase — the same rough-in-early
 ### Stage 11 — Panel Layout Drawings
 
 - **Entry:** Stage 8 complete.
+- **Actions:** show every controller and module Stage 8 assigned — including chunks marked **provision only**, drawn as reserved rack/gutter space even though no module is purchased yet.
 - **Output:** panel layout drawings.
 - **Exit (first review checkpoint):** internally reviewed and submittal-ready.
 
 ### Stage 12 — Wiring Schematics
 
 - **Entry:** Stage 8 complete; Stage 7 protocol/wiring-type information available.
+- **Actions:** reserve power budget and wireway capacity for **provision-only** chunks from Stage 8, not just purchased hardware.
 - **Output:** wiring schematics.
 - **Exit (first review checkpoint):** internally reviewed and submittal-ready.
 
@@ -337,9 +343,10 @@ Because the narrative and the final I/O list both come from the approved model (
   - **No** → loop back to the stage that owns the defect (takeoff or selection).
 - **G5 — A later stage needs to change approved takeoff or selection content?**
   - **Yes** → reopen the model checkpoint for that item.
-- **G6 — A point is added or changed after Stage 8 (Controller/Panel I/O Assignment) closes. Does it fit within existing spare capacity?**
-  - **Yes** → **Field Change.** Update the model and the affected drawings; capture it in a later submittal revision. Approval is typically informal (word of mouth) rather than a full review cycle — but it still gets a source reference (field change, date, who approved it). No new controller/panel hardware is needed.
-  - **No** → a new controller or panel is required (e.g., an additional peer controller on the network). This is an architecture change: reopen Stage 8, and it **reopens Submittal Review** for the affected tracks (typically panel layout, wiring schematics, and possibly the narrative/diagram if new functions are involved).
+- **G6 — A point is added or changed after Stage 8 (Controller/Panel I/O Assignment) closes.**
+  - **Fits within already-purchased spare capacity** → **Field Change.** Update the model and the affected drawings; capture it in a later submittal revision. Approval is typically informal (word of mouth) rather than a full review cycle — but it still gets a source reference (field change, date, who approved it). No new controller/panel hardware is needed.
+  - **Fits within reserved-but-unpurchased provisioning** (rack space, power and wireway already shown on the approved drawings) → **Promote the reserved item:** purchase the deferred module, move the reserved I/O item's status to `promoted`, link it to the new `point`. Because the physical/electrical accommodation was already submitted, panel layout and wiring schematics typically do not need to be redrawn — this is a BOM/purchase change, not a drawing change. Still gets a source reference and informal approval, captured in a later revision.
+  - **Exceeds all existing and reserved provisioning** (e.g., topped out on remote I/O modules) → a new controller or panel is required (e.g., an additional peer controller on the network). This is an architecture change: reopen Stage 8, and it **reopens Submittal Review** for the affected tracks (typically panel layout, wiring schematics, and possibly the narrative/diagram if new functions are involved).
 
 ---
 
@@ -358,7 +365,8 @@ Because the narrative and the final I/O list both come from the approved model (
 
 ## 8. Open Decisions
 
-- **Spare capacity policy:** a standing percentage or point count of spare I/O per controller/remote I/O module, to size Stage 8 consistently across projects. Currently applied by judgment ("guides the hardware on most every project"); worth formalizing on the relevant platform page (e.g., `platforms/kmc/`).
+- **Spare capacity policy — structure resolved, numbers pending:** precedence is project spec, else KIS default of 20%, layered on top of named Reserved I/O rather than replacing it (see [KMC Architecture Constraints](../platforms/kmc/architecture-constraints.md)). Actual module chunk sizes per platform/controller family still need to be filled in from real hardware data.
+- **Reserved I/O capture process:** how a review/sidebar conversation flag becomes a recorded `reserved_io` item in practice (who logs it, at what point in the workflow) is not yet a defined step — right now it depends on someone remembering to do it.
 - **Internal "first review checkpoint" criteria:** whether each of the five fork-track deliverables has the same internal reviewer/role, or a different one per deliverable type.
 - **BACnet Instance ID negotiation process:** not yet formalized — how the owner's schema (if any) is requested, reconciled, and confirmed before Commissioning.
 - **Commissioning:** referenced here as the milestone that closes out open items like instance IDs, but is not yet defined as a stage in this playbook.

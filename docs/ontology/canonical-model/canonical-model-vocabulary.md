@@ -25,8 +25,13 @@ project
     │   └── device    (sensor, switch, actuator, VFD, ...)
     │       ├── point (one I/O signal)
     │       └── selection   (selection layer — stage 4)
+    ├── reserved_io   (anticipated, not-yet-committed I/O — architecture layer)
     ├── dependency    (serves / served-by / shared signal)
     └── open_item     (conflict, missing information, RFI)
+
+panel                  (enclosure; contains controllers — architecture layer)
+└── controller         (controller/remote-I/O hardware; hosts points and
+                         reserved_io up to its capacity — architecture layer)
 
 source_ref            (attached to any element or attribute)
 ```
@@ -41,6 +46,9 @@ source_ref            (attached to any element or attribute)
 | selection | [Device Selection](selection.md) | selection |
 | dependency | [Dependency](dependency.md) | takeoff |
 | open_item | [Open Item](open-item.md) | any |
+| reserved_io | [Reserved I/O](reserved-io.md) | architecture |
+| panel | [Panel](panel.md) | architecture |
+| controller | [Controller](controller.md) | architecture |
 | source_ref | [Source Reference](source-reference.md) | any |
 
 Behavior elements (function, setpoint, alarm, safety, operating mode, control relationship) are **not** part of the canonical model. They belong to the narrative stage and live in `ontology/narrative-model/`.
