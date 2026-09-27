@@ -32,6 +32,7 @@ A point is one I/O signal, attached to a device, with a BAS I/O category and a r
 | `raw_signal` | enum | yes | starter list: `4-20mA`, `0-10VDC`, `dry_contact`, `rtd_1000ohm`, `thermistor_10k`, `pulse` — extend per the vocabulary's extension rule | as shown on the controls diagram or I/O list, before engineering units are assigned |
 | `attaches_to` | reference | yes | a `device` id | — |
 | `usage` | list of enum | yes | `control` \| `visualization` \| `alarm_only` \| `monitoring_only` | drives the Stage 4 exit rule: any point tagged `control` or `visualization` must get a range and sizing basis in the Selection layer |
+| `external_source` | reference | no | an [External System Reference](external-system.md) id | set when the wire's other end originates outside this project's design scope — e.g., a downstream unit's status contact wired into our permissive logic — rather than one of our own upstream devices |
 | `source_ref` | list of [Source Reference](source-reference.md) | yes, 1+ | — | — |
 
 ---

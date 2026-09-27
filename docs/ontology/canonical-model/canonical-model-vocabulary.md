@@ -23,15 +23,27 @@ project
     ├── feature       (declared capability, e.g., economizer = true)
     ├── component     (fan, damper, coil, filter, valve, ...)
     │   └── device    (sensor, switch, actuator, VFD, ...)
-    │       ├── point (one I/O signal)
+    │       ├── point (one I/O signal; may cite external_system via
+    │       │          external_source, if its wire originates outside
+    │       │          this project's design scope)
     │       └── selection   (selection layer — stage 4)
     ├── reserved_io   (anticipated, not-yet-committed I/O — architecture layer)
-    ├── dependency    (serves / served-by / shared signal)
+    ├── dependency    (serves / served-by / shared signal — between two
+    │                  systems both present in THIS model)
     └── open_item     (conflict, missing information, RFI)
+
+external_system        (minimal reference to equipment outside this
+                         project's design scope — takeoff layer; see
+                         external-system.md. Never gets its own
+                         component/device/point breakdown.)
 
 panel                  (enclosure; contains controllers — architecture layer)
 └── controller         (controller/remote-I/O hardware; hosts points and
-                         reserved_io up to its capacity — architecture layer)
+                         reserved_io up to its capacity — architecture layer.
+                         A controller can itself be provisioned-but-not-yet-
+                         purchased, or purchased with zero points assigned —
+                         real spare capacity at whole-module granularity,
+                         distinct from a named reserved_io point.)
 
 source_ref            (attached to any element or attribute)
 ```
@@ -45,6 +57,7 @@ source_ref            (attached to any element or attribute)
 | point | [Point](point.md) | takeoff |
 | selection | [Device Selection](selection.md) | selection |
 | dependency | [Dependency](dependency.md) | takeoff |
+| external_system | [External System Reference](external-system.md) | takeoff |
 | open_item | [Open Item](open-item.md) | any |
 | reserved_io | [Reserved I/O](reserved-io.md) | architecture |
 | panel | [Panel](panel.md) | architecture |
